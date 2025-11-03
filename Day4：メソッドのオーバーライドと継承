@@ -1,0 +1,169 @@
+Day4は「継承（extends）とオーバーライド、parent:: の理解」です。
+表形式は使いません。端的に、しかし本質は丁寧に説明します。
+
+
+
+🎯 今日の目的
+
+親クラスの機能を 子クラスに引き継ぐ「継承」を理解する。
+子クラス側で同名のメソッドを定義して 上書き（オーバーライド） できることを理解する。
+親クラスのメソッドをそのまま使いたいときに parent:: を使う意味を理解する。
+
+
+
+✅ 例題コード（stepOOP_day04_inheritance.php）
+<?php
+
+class Animal {
+  public $name;
+
+  public function __construct($name) {
+    $this->name = $name;
+  }
+
+  public function speak() {
+    echo "{$this->name} は鳴いています。\n";
+  }
+}
+
+class Dog extends Animal {
+
+  public function speak() {
+    echo "{$this->name} がワン！と吠えました。\n";
+  }
+
+  public function parentSpeak() {
+    parent::speak();
+  }
+}
+
+$animal = new Animal("動物");
+$animal->speak();
+
+$dog = new Dog("ポチ");
+$dog->speak();        // オーバーライドされたメソッド
+$dog->parentSpeak();  // 親クラスのメソッドをそのまま実行
+
+
+
+🔍 解説（端的に）
+
+class Dog extends Animal
+→ Dogクラスは Animalクラスの性質（プロパティ・メソッド）を引き継ぐ。
+
+speak() を Dog で再定義している
+→ これが オーバーライド（上書き）。
+→ 「名前は同じだけど中身を変える」ことで、クラスごとの挙動の違いを表現できる。
+
+parent::speak()
+→ 子クラスから 親クラスのメソッドを呼ぶための書き方。
+→ 「上書きしたけど、元の動作も使いたい」場面で使う。
+
+ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
+
+🏃‍♂️ 練習問題（あなたが書く）
+
+以下を新しいファイル stepOOP_day04_practice.php に書いてください。
+
+Vehicle（乗り物）クラスを作る
+
+public $name を持つ
+
+__construct($name) でセット
+
+run() メソッドで「{$name} が走っています\n」と出力
+
+Car クラスを Vehicle を extends して作る
+
+run() をオーバーライドして
+「{$name} がエンジンを使って走っています\n」と出力
+
+実行して動作を確認する。
+
+class Vehicle {
+  public $name;
+
+  public function __construct($name) {
+    $this->name = $name;
+  }
+
+  public function run() {
+    echo "{$this->name}が走っています\n";
+  }
+}
+
+class Car extends Vehicle {
+  public function run() {
+    echo "{$this->name}がエンジンを使って走っています\n";
+  }
+}
+
+$vehicle = new Vehicle("車");
+$vehicle->run();
+
+$car = new Car;
+$car->run();
+
+
+ありがとうございます。
+結論から言うと あと一歩だけ修正が必要です。
+
+
+✅ 指摘すべき点（端的に）
+
+Car をインスタンス化するときに、コンストラクタ引数を渡していません。
+
+$car = new Car;   // ← nameを渡していない
+
+Vehicle の __construct($name) が継承されているため、
+Car も 生成時に名前を渡す必要があります。
+
+ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
+
+練習問題修正版：
+
+class Vehicle {
+  public $name;
+
+  public function __construct($name) {
+    $this->name = $name;
+  }
+
+  public function run() {
+    echo "{$this->name}が走っています\n";
+  }
+}
+
+class Car extends Vehicle {
+  public function run() {
+    echo "{$this->name}がエンジンを使って走っています\n";
+  }
+}
+
+$vehicle = new Vehicle("車");
+$vehicle->run();
+
+$car = new Car("車");
+$car->run();
+
+修正完了です。コードは正しく動きます。
+継承・オーバーライドの理解は問題ありません。
+
+ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
+
+✅ 最終確認テスト（短く回答）
+
+Q1. extends は何をするためのキーワードですか？
+解答：継承するために必要なもの
+
+Q2. オーバーライドとは何ですか？
+解答：継承して親クラスのものを子クラスが上書きすること
+
+Q3. parent:: を使う目的は何ですか？
+解答：オーバーライド＝上書きする事を分かるように使う
+
+
+修正版：
+Q3. parent::
+→ 子クラス内から、親クラスのメソッドをそのまま呼び出すために使う。
+
