@@ -830,4 +830,4 @@ $this->items[] = $product;
 += は「数値の足し算」
 配列に要素を追加するときに「足し算」はしない
 配列へ入れるのは「代入」なので =
-よって正解は $this->items[] = $product;
+よって正解は $this->items[] = $product;   
